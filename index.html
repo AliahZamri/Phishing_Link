@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You won $$$$$</title>
+    <title>Phishing Meme with Sound</title>
     <style>
         /* Reset body styles */
         body {
@@ -71,25 +71,13 @@
     <audio id="audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop autoplay></audio>
 
     <script>
-        // Get elements
-        const memeImage = document.getElementById('memeImage');
+        // Get the audio element
         const audio = document.getElementById('audio');
 
-        // Optionally, play sound when the page loads
+        // Play audio as background music when the page loads
         window.onload = function() {
-            // Ensuring that audio starts playing as background music
             audio.play();
         };
-
-        // Play sound when the image is clicked (in case it's stopped)
-        memeImage.addEventListener('click', function() {
-            // Toggle play/pause when image is clicked
-            if (audio.paused) {
-                audio.play();
-            } else {
-                audio.pause();
-            }
-        });
     </script>
 </body>
 </html>
