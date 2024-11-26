@@ -19,37 +19,33 @@
             position: relative;
         }
 
-        /* Background container with 4 GIF tiles */
+        /* Seamless background */
         .background-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: grid;
-            grid-template-columns: repeat(2, 50%); /* 2 columns */
-            grid-template-rows: repeat(2, 50%);   /* 2 rows */
-            z-index: -1; /* Place it behind the meme */
-        }
-
-        .gif-tile {
             background-image: url('Phishing%20Campaign/clip-raining-money-gif-19.gif');
-            background-size: cover;
+            background-size: cover; /* Seamless stretching */
+            background-repeat: no-repeat;
             background-position: center;
-            filter: saturate(0.3); /* Reduce saturation for visual effect */
+            z-index: -1; /* Place it behind the meme */
+            filter: saturate(0.3); /* Reduce saturation */
         }
 
         /* Meme image container */
         .meme-container {
-            z-index: 1; /* Place the meme above the GIF */
+            z-index: 1; /* Place the meme above the background */
+            width: 100%; /* Fullscreen width */
+            height: auto;
             text-align: center;
         }
 
         .meme-container img {
-            max-width: 90%;
-            max-height: 90%;
-            border: 4px solid #fff;
-            border-radius: 10px;
+            max-width: 100%; /* Make image responsive to screen */
+            max-height: 100vh; /* Prevent overflow beyond the viewport height */
+            border: none; /* Remove border for a clean look */
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
             animation: teeter 1.5s infinite ease-in-out;
         }
@@ -74,13 +70,8 @@
     </style>
 </head>
 <body>
-    <!-- Background Grid with GIF -->
-    <div class="background-container">
-        <div class="gif-tile"></div>
-        <div class="gif-tile"></div>
-        <div class="gif-tile"></div>
-        <div class="gif-tile"></div>
-    </div>
+    <!-- Seamless GIF Background -->
+    <div class="background-container"></div>
 
     <!-- Meme Image -->
     <div class="meme-container">
