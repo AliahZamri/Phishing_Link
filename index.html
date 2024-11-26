@@ -19,33 +19,37 @@
             position: relative;
         }
 
-        /* Seamless background */
+        /* Background container with 4 GIF tiles */
         .background-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('Phishing%20Campaign/clip-raining-money-gif-19.gif');
-            background-size: cover; /* Seamless stretching */
-            background-repeat: no-repeat;
-            background-position: center;
+            display: grid;
+            grid-template-columns: repeat(2, 50%); /* 2 columns */
+            grid-template-rows: repeat(2, 50%);   /* 2 rows */
             z-index: -1; /* Place it behind the meme */
-            filter: saturate(0.3); /* Reduce saturation */
+        }
+
+        .gif-tile {
+            background-image: url('Phishing%20Campaign/clip-raining-money-gif-19.gif');
+            background-size: cover;
+            background-position: center;
+            filter: saturate(0.3); /* Reduce saturation for visual effect */
         }
 
         /* Meme image container */
         .meme-container {
-            z-index: 1; /* Place the meme above the background */
-            width: 100%; /* Fullscreen width */
-            height: auto;
+            z-index: 1; /* Place the meme above the GIF */
             text-align: center;
         }
 
         .meme-container img {
-            max-width: 100%; /* Make image responsive to screen */
-            max-height: 100vh; /* Prevent overflow beyond the viewport height */
-            border: none; /* Remove border for a clean look */
+            max-width: 90%;
+            max-height: 90%;
+            border: 4px solid #fff;
+            border-radius: 10px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
             animation: teeter 1.5s infinite ease-in-out;
         }
@@ -70,8 +74,13 @@
     </style>
 </head>
 <body>
-    <!-- Seamless GIF Background -->
-    <div class="background-container"></div>
+    <!-- Background Grid with GIF -->
+    <div class="background-container">
+        <div class="gif-tile"></div>
+        <div class="gif-tile"></div>
+        <div class="gif-tile"></div>
+        <div class="gif-tile"></div>
+    </div>
 
     <!-- Meme Image -->
     <div class="meme-container">
@@ -83,18 +92,19 @@
     <audio id="background-audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" autoplay loop></audio>
 
     <script>
-        // Audio play logic
-        const audio = document.getElementById('background-audio');
+        // Get elements
+        const memeImage = document.getElementById('memeImage');
+        const audio = document.getElementById('audio');
 
-        // Ensure autoplay works, even on browsers with user interaction restrictions
-        window.addEventListener('load', () => {
-            audio.play().catch(err => {
-                console.log('Autoplay failed. User interaction required:', err);
-            });
-        });
+        // Optionally, play sound when the page loads
+        window.onload = function() {
+            // Ensuring that audio starts playing as background music
+            audio.play();
+        };
 
-        // Optional: Allow play/pause toggle with the page click
-        document.body.addEventListener('click', () => {
+        // Play sound when the image is clicked (in case it's stopped)
+        memeImage.addEventListener('click', function() {
+            // Toggle play/pause when image is clicked
             if (audio.paused) {
                 audio.play();
             } else {
