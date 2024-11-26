@@ -3,43 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You Won $$$$</title>
+    <title>Phishing Meme with Rain GIF</title>
     <style>
         /* Reset body styles */
         body {
             margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
             font-family: Arial, sans-serif;
+            position: relative;
             overflow: hidden;
-            position: relative;
-            background-image: url('background-image: url('clip-raining-money-gif-19.gif');
-            background-size: cover;  /* Make sure the GIF covers the entire screen */
-            background-position: center; /* Center the background */
-            background-repeat: no-repeat; /* Prevent background from repeating */
         }
 
-        /* Fullscreen container for meme image */
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 10;  /* Ensure meme image is above background */
+        /* Container for the GIF background */
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 columns */
+            grid-template-rows: 1fr 1fr; /* 2 rows */
+            z-index: -1; /* Place it behind the meme */
         }
 
-        /* Image styling */
-        img {
-            max-width: 80%;
-            max-height: 80%;
+        /* Individual container for each GIF section */
+        .gif-section {
+            background-image: url('Phishing%20Campaign/clip-raining-money-gif-19.gif');
+            background-size: cover;
+            background-position: center;
+            filter: saturate(0.3); /* Adjust the saturation */
+        }
+
+        /* Meme image container */
+        .meme-container {
+            position: relative;
+            z-index: 1; /* Place the meme above the GIF background */
+        }
+
+        /* Meme image styling */
+        .meme-container img {
+            max-width: 100%;
+            max-height: 100%;
             border: 2px solid #ccc;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             animation: teeter 1.5s infinite ease-in-out;
-            cursor: pointer; /* Change the cursor to indicate interactivity */
         }
 
         /* Keyframes for teeter animation */
@@ -60,35 +74,21 @@
                 transform: rotate(0deg);
             }
         }
-
-        /* Make audio element invisible, playing in the background */
-        audio {
-            display: none;
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" 
-             alt="Phishing Meme" id="memeImage">
+    <!-- Background container with GIFs -->
+    <div class="background-container">
+        <div class="gif-section"></div>
+        <div class="gif-section"></div>
+        <div class="gif-section"></div>
+        <div class="gif-section"></div>
     </div>
 
-    <!-- Audio element -->
-    <audio id="audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop autoplay></audio>
-
-    <script>
-        // Get elements
-        const memeImage = document.getElementById('memeImage');
-        const audio = document.getElementById('audio');
-
-        // Optionally, play sound when the page loads
-        window.onload = function() {
-            // Ensuring that audio starts playing as background music
-            audio.play();
-        };
-
-        // Play sound when the image is clicked (in case it's stopped)
-        memeImage.addEventListener('click', function() {
-            // Toggle play/pause when image is clicked
-            if (audio.paused) {
-                audio.pl
+    <!-- Meme container -->
+    <div class="meme-container">
+        <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" 
+             alt="Phishing Meme">
+    </div>
+</body>
+</html>
