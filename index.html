@@ -58,10 +58,26 @@
     </style>
 </head>
 <body>
-    <audio autoplay="" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop></audio>
+    <!-- Audio element, muted initially to bypass autoplay restrictions -->
+    <audio id="audio" autoplay loop muted>
+        <source src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" type="audio/mp4">
+    </audio>
+
     <div class="container">
         <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" 
              alt="Phishing Meme" id="memeImage">
     </div>
+
+    <script>
+        // Get the audio element
+        const audio = document.getElementById('audio');
+
+        // Unmute the audio once the page is loaded
+        window.onload = function() {
+            // Allow the audio to play, then unmute
+            audio.muted = false;
+            audio.play();
+        };
+    </script>
 </body>
 </html>
