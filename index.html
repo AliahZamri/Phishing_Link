@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing Meme with Rain GIF</title>
+    <title>Phishing Meme with Rain GIF and Audio</title>
     <style>
         /* Reset body styles */
         body {
@@ -13,13 +13,13 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #000; /* Black background as fallback */
             font-family: Arial, sans-serif;
-            position: relative;
             overflow: hidden;
+            position: relative;
         }
 
-        /* Container for the GIF background */
+        /* Background container with 4 GIF tiles */
         .background-container {
             position: absolute;
             top: 0;
@@ -27,68 +27,89 @@
             width: 100%;
             height: 100%;
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 columns */
-            grid-template-rows: 1fr 1fr; /* 2 rows */
+            grid-template-columns: repeat(2, 50%); /* 2 columns */
+            grid-template-rows: repeat(2, 50%);   /* 2 rows */
             z-index: -1; /* Place it behind the meme */
         }
 
-        /* Individual container for each GIF section */
-        .gif-section {
+        .gif-tile {
             background-image: url('Phishing%20Campaign/clip-raining-money-gif-19.gif');
             background-size: cover;
             background-position: center;
-            filter: saturate(0.3); /* Adjust the saturation */
+            filter: saturate(0.3); /* Reduce saturation for visual effect */
         }
 
         /* Meme image container */
         .meme-container {
-            position: relative;
-            z-index: 1; /* Place the meme above the GIF background */
+            z-index: 1; /* Place the meme above the GIF */
+            text-align: center;
         }
 
-        /* Meme image styling */
         .meme-container img {
-            max-width: 100%;
-            max-height: 100%;
-            border: 2px solid #ccc;
+            max-width: 90%;
+            max-height: 90%;
+            border: 4px solid #fff;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
             animation: teeter 1.5s infinite ease-in-out;
         }
 
-        /* Keyframes for teeter animation */
+        /* Animation for teetering effect */
         @keyframes teeter {
-            0% {
+            0%, 100% {
                 transform: rotate(0deg);
             }
             25% {
                 transform: rotate(5deg);
             }
-            50% {
-                transform: rotate(0deg);
-            }
             75% {
                 transform: rotate(-5deg);
             }
-            100% {
-                transform: rotate(0deg);
-            }
+        }
+
+        /* Hidden audio element */
+        audio {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <!-- Background container with GIFs -->
+    <!-- Background Grid with GIF -->
     <div class="background-container">
-        <div class="gif-section"></div>
-        <div class="gif-section"></div>
-        <div class="gif-section"></div>
-        <div class="gif-section"></div>
+        <div class="gif-tile"></div>
+        <div class="gif-tile"></div>
+        <div class="gif-tile"></div>
+        <div class="gif-tile"></div>
     </div>
 
-    <!-- Meme container -->
+    <!-- Meme Image -->
     <div class="meme-container">
         <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" 
              alt="Phishing Meme">
     </div>
+
+    <!-- Audio Element -->
+    <audio id="background-audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" autoplay loop></audio>
+
+    <script>
+        // Audio play logic
+        const audio = document.getElementById('background-audio');
+
+        // Ensure autoplay works, even on browsers with user interaction restrictions
+        window.addEventListener('load', () => {
+            audio.play().catch(err => {
+                console.log('Autoplay failed. User interaction required:', err);
+            });
+        });
+
+        // Optional: Allow play/pause toggle with the page click
+        document.body.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        });
+    </script>
 </body>
 </html>
