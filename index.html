@@ -55,40 +55,13 @@
             }
         }
 
-        /* Make audio element invisible, playing in the background */
-        audio {
-            display: none;
-        }
-            <!-- Audio element -->
-    <audio id="audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop></audio>
-
-    <script>
-        // Get the audio element
-        const audio = document.getElementById('audio');
-
-        // Try to play the audio automatically when the page loads
-        window.onload = function() {
-            audio.play().catch(function(error) {
-                console.log('Autoplay failed:', error);
-                // Fallback: Ask the user to click the meme image to start the audio
-                alert("Click the meme to start the sound!");
-            });
-        };
-
-        // Play sound when the image is clicked (in case autoplay fails)
-        const memeImage = document.getElementById('memeImage');
-        memeImage.addEventListener('click', function() {
-            audio.play();
-        });
-    </script>
     </style>
 </head>
 <body>
+    <audio autoplay="" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop></audio>
     <div class="container">
         <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" 
              alt="Phishing Meme" id="memeImage">
     </div>
-
-
 </body>
 </html>
