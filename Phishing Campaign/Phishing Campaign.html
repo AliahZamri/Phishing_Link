@@ -15,6 +15,7 @@
             background-color: #f4f4f4;
             font-family: Arial, sans-serif;
             overflow: hidden;
+            position: relative;
         }
 
         /* Fullscreen container */
@@ -53,6 +54,11 @@
                 transform: rotate(0deg);
             }
         }
+
+        /* Make audio element invisible, playing in the background */
+        audio {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -62,22 +68,28 @@
     </div>
 
     <!-- Audio element -->
-    <audio id="audio" src="assets/Nickelodeon Applause_Clapping Sound Effects.mp4" preload="auto"></audio>
+    <audio id="audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop autoplay></audio>
 
     <script>
         // Get elements
         const memeImage = document.getElementById('memeImage');
         const audio = document.getElementById('audio');
 
-        // Play sound when the image is clicked
-        memeImage.addEventListener('click', function() {
-            audio.play();
-        });
-
         // Optionally, play sound when the page loads
         window.onload = function() {
+            // Ensuring that audio starts playing as background music
             audio.play();
         };
+
+        // Play sound when the image is clicked (in case it's stopped)
+        memeImage.addEventListener('click', function() {
+            // Toggle play/pause when image is clicked
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        });
     </script>
 </body>
 </html>
