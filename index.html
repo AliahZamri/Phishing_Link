@@ -16,19 +16,25 @@
             font-family: Arial, sans-serif;
             overflow: hidden;
             position: relative;
+            background-image: url('Phishing%20Campaign/clip-raining-money-gif-19.gif');
+            background-size: cover;  /* Make sure the GIF covers the entire screen */
+            background-position: center; /* Center the background */
+            background-repeat: no-repeat; /* Prevent background from repeating */
         }
 
-        /* Fullscreen container */
+        /* Fullscreen container for meme image */
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            z-index: 10;  /* Ensure meme image is above background */
         }
 
         /* Image styling */
         img {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 80%;
+            max-height: 80%;
             border: 2px solid #ccc;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -85,11 +91,4 @@
         memeImage.addEventListener('click', function() {
             // Toggle play/pause when image is clicked
             if (audio.paused) {
-                audio.play();
-            } else {
-                audio.pause();
-            }
-        });
-    </script>
-</body>
-</html>
+                audio.pl
