@@ -12,19 +12,15 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-image: url('https://www.ihdigital.co.th/wp-content/uploads/2021/09/Bovril-SG.gif'); /* Set the GIF as background */
-            background-size: cover; /* Make sure the GIF covers the entire screen */
-            background-position: center; /* Center the GIF */
-            background-attachment: fixed; /* Keep the background fixed while scrolling */
+            background-color: #f4f4f4;
             font-family: Arial, sans-serif;
-            color: white; /* Set text color to white for better visibility */
-            text-align: center;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* Content styling */
+        /* Centered container for button */
         .content {
-            position: relative; /* Make content appear on top of the GIF */
-            z-index: 2;
+            text-align: center;
         }
 
         button {
@@ -54,7 +50,6 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            z-index: 3;
         }
 
         img {
@@ -83,6 +78,31 @@
         audio {
             display: none;
         }
+
+        /* New Page Styling */
+        .new-page {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .new-page img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .new-page .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545;
+        }
     </style>
 </head>
 <body>
@@ -98,6 +118,12 @@
         <button class="close-button" id="closeButton">Close</button>
     </div>
 
+    <!-- New Page -->
+    <div class="new-page" id="newPageContainer">
+        <img src="Phishing%20Campaign/Action_Afterwards.png" alt="Action After Meme">
+        <button class="close-button" id="endSessionButton">Close and End Session</button>
+    </div>
+
     <!-- Audio element -->
     <audio id="audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop></audio>
 
@@ -106,6 +132,8 @@
         const claimButton = document.getElementById('claimButton');
         const memeContainer = document.getElementById('memeContainer');
         const closeButton = document.getElementById('closeButton');
+        const newPageContainer = document.getElementById('newPageContainer');
+        const endSessionButton = document.getElementById('endSessionButton');
         const audio = document.getElementById('audio');
 
         // Show meme, play sound, and log data on button click
@@ -128,11 +156,16 @@
             };
         });
 
-        // Hide meme and stop sound on close button click
+        // Hide meme and go to next page on close button click
         closeButton.addEventListener('click', function() {
             memeContainer.style.display = 'none';
-            audio.pause();
-            audio.currentTime = 0; // Reset audio to the start
+            newPageContainer.style.display = 'flex';
+        });
+
+        // Close the new page and end the session when the button is clicked
+        endSessionButton.addEventListener('click', function() {
+            // Close the window
+            window.close();
         });
     </script>
 </body>
