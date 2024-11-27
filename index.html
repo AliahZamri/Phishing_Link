@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>You won $$$!</title>
     <style>
-        /* General styling */
+        /* Reset body styles */
         body {
             margin: 0;
             display: flex;
@@ -14,13 +14,15 @@
             height: 100vh;
             background-color: #f4f4f4;
             font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* Centered content styling */
+        /* Centered container for the claim button */
         .content {
             text-align: center;
         }
-
+        
         button {
             padding: 10px 20px;
             font-size: 18px;
@@ -36,40 +38,47 @@
             background-color: #218838;
         }
 
-        /* Fullscreen meme and image */
-        .fullscreen-content {
+        /* Fullscreen meme container */
+        .meme-container, .action-container {
+            display: none;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
+            background-color: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
-            background-color: rgba(0, 0, 0, 0.8);
             flex-direction: column;
         }
 
-        .fullscreen-content img {
+        /* Meme and image styling */
+        img {
             max-width: 80%;
             max-height: 80%;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
+        /* Close button styling */
         .close-button {
             margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
             background-color: #dc3545;
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
-            padding: 10px 15px;
             cursor: pointer;
         }
 
         .close-button:hover {
             background-color: #c82333;
+        }
+
+        /* Invisible audio for background music */
+        audio {
+            display: none;
         }
     </style>
 </head>
@@ -81,62 +90,62 @@
         <button id="claimButton">Claim Prize</button>
     </div>
 
+    <!-- Meme Fullscreen Container -->
+    <div class="meme-container" id="memeContainer">
+        <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" alt="Meme Image">
+        <button class="close-button" id="closeMemeButton">Help</button>
+    </div>
+
+    <!-- Action Afterwards Image Container -->
+    <div class="action-container" id="actionContainer">
+        <img src="Phishing%20Campaign/Action_Afterwards.jpg" alt="Action Afterwards Image">
+        <button class="close-button" id="closeActionButton">Close</button>
+    </div>
+
+    <!-- Background Music -->
     <audio id="backgroundMusic" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop></audio>
 
     <script>
-        // Get elements
+        // Get DOM elements
         const claimButton = document.getElementById('claimButton');
-        const mainContent = document.getElementById('mainContent');
+        const memeContainer = document.getElementById('memeContainer');
+        const closeMemeButton = document.getElementById('closeMemeButton');
+        const actionContainer = document.getElementById('actionContainer');
+        const closeActionButton = document.getElementById('closeActionButton');
         const backgroundMusic = document.getElementById('backgroundMusic');
 
-        // Step 1: Handle Claim Button Click
+        // Step 1: Show Meme on Claim Button Click
         claimButton.addEventListener('click', function () {
-            // Send AJAX signal
+            // Hide the main content
+            document.getElementById('mainContent').style.display = 'none';
+
+            // Show the meme container and play background music
+            memeContainer.style.display = 'flex';
+            backgroundMusic.play();
+        });
+
+        // Step 2: Show Action Afterwards Image on Meme Close
+        closeMemeButton.addEventListener('click', function () {
+            // Stop the music
+            backgroundMusic.pause();
+
+            // Hide meme container, show action container
+            memeContainer.style.display = 'none';
+            actionContainer.style.display = 'flex';
+        });
+
+        // Step 3: Close Everything on Final Button Click
+        closeActionButton.addEventListener('click', function () {
+            // Close the current session
             fetch('log.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ action: 'claim_clicked' }),
-            }).then(response => console.log("Signal sent:", response));
-
-            // Step 2: Replace content with meme and play music
-            mainContent.innerHTML = `
-                <div class="fullscreen-content" id="memeContent">
-                    <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" alt="Phishing Meme">
-                    <button class="close-button" id="closeMemeButton">Help</button>
-                </div>
-            `;
-            backgroundMusic.play();
-
-            // Step 3: Handle Close Meme Button
-            const closeMemeButton = document.getElementById('closeMemeButton');
-            closeMemeButton.addEventListener('click', function () {
-                backgroundMusic.pause();
-
-                // Step 4: Replace meme with final image
-                mainContent.innerHTML = `
-                    <div class="fullscreen-content">
-                        <img src="Phishing%20Campaign/Action_Afterwards.jpg" alt="Action Afterwards">
-                        <button class="close-button" id="endSessionButton">Close</button>
-                    </div>
-                `;
-
-                // Step 5: Handle End Session Button
-                const endSessionButton = document.getElementById('endSessionButton');
-                endSessionButton.addEventListener('click', function () {
-                    // Close the session and redirect
-                    fetch('log.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ action: 'session_closed' }),
-                    }).then(() => {
-                        // End the session by closing the window
-                        window.close();
-                    });
-                });
+                body: JSON.stringify({ action: 'session_closed' }),
+            }).then(() => {
+                // Attempt to close the browser window
+                window.close();
             });
         });
     </script>
