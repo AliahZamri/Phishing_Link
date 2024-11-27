@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>You won $$$$</title>
+    <title>You won $$$!</title>
     <style>
         /* Reset body styles */
         body {
@@ -18,41 +18,60 @@
             position: relative;
         }
 
-        /* Fullscreen container */
-        .container {
-            display: flex;
+        /* Centered container for button */
+        .content {
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Fullscreen meme container */
+        .meme-container {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
+            flex-direction: column;
         }
 
-        /* Image styling */
         img {
-            max-width: 100%;
-            max-height: 100%;
-            border: 2px solid #ccc;
+            max-width: 80%;
+            max-height: 80%;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            animation: teeter 1.5s infinite ease-in-out;
-            cursor: pointer; /* Change the cursor to indicate interactivity */
         }
 
-        /* Keyframes for teeter animation */
-        @keyframes teeter {
-            0% {
-                transform: rotate(0deg);
-            }
-            25% {
-                transform: rotate(5deg);
-            }
-            50% {
-                transform: rotate(0deg);
-            }
-            75% {
-                transform: rotate(-5deg);
-            }
-            100% {
-                transform: rotate(0deg);
-            }
+        .close-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            background-color: #c82333;
         }
 
         /* Make audio element invisible, playing in the background */
@@ -62,33 +81,53 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="content">
+        <h1>Congratulations! You won $$$!</h1>
+        <p>Click the button below to claim your prize.</p>
+        <button id="claimButton">Claim Prize</button>
+    </div>
+
+    <div class="meme-container" id="memeContainer">
         <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" 
              alt="Phishing Meme" id="memeImage">
+        <button class="close-button" id="closeButton">Close</button>
     </div>
 
     <!-- Audio element -->
-    <audio id="audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop autoplay></audio>
+    <audio id="audio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop></audio>
 
     <script>
         // Get elements
-        const memeImage = document.getElementById('memeImage');
+        const claimButton = document.getElementById('claimButton');
+        const memeContainer = document.getElementById('memeContainer');
+        const closeButton = document.getElementById('closeButton');
         const audio = document.getElementById('audio');
 
-        // Optionally, play sound when the page loads
-        window.onload = function() {
-            // Ensuring that audio starts playing as background music
+        // Show meme, play sound, and log data on button click
+        claimButton.addEventListener('click', function() {
+            // Display meme and play audio
+            memeContainer.style.display = 'flex';
             audio.play();
-        };
 
-        // Play sound when the image is clicked (in case it's stopped)
-        memeImage.addEventListener('click', function() {
-            // Toggle play/pause when image is clicked
-            if (audio.paused) {
-                audio.play();
-            } else {
-                audio.pause();
-            }
+            // AJAX request to send user data
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost/log.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('action=log_click');
+
+            // Optional: Handle the response
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('Data logged successfully:', xhr.responseText);
+                }
+            };
+        });
+
+        // Hide meme and stop sound on close button click
+        closeButton.addEventListener('click', function() {
+            memeContainer.style.display = 'none';
+            audio.pause();
+            audio.currentTime = 0; // Reset audio to the start
         });
     </script>
 </body>
