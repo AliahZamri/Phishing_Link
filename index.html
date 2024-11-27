@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>You won $$$!</title>
     <style>
-        /* Reset body styles */
         body {
             margin: 0;
             display: flex;
@@ -17,12 +16,9 @@
             overflow: hidden;
             position: relative;
         }
-
-        /* Centered container for the claim button */
         .content {
             text-align: center;
         }
-        
         button {
             padding: 10px 20px;
             font-size: 18px;
@@ -33,13 +29,10 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         button:hover {
             background-color: #218838;
         }
-
-        /* Fullscreen meme container */
-        .meme-container, .action-container {
+        .meme-container, .image-container {
             display: none;
             position: absolute;
             top: 0;
@@ -51,16 +44,12 @@
             align-items: center;
             flex-direction: column;
         }
-
-        /* Meme and image styling */
         img {
             max-width: 80%;
             max-height: 80%;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
-        /* Close button styling */
         .close-button {
             margin-top: 20px;
             padding: 10px 20px;
@@ -71,83 +60,83 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
         .close-button:hover {
             background-color: #c82333;
         }
-
-        /* Invisible audio for background music */
         audio {
             display: none;
         }
     </style>
 </head>
 <body>
-    <!-- Initial Content -->
     <div class="content" id="mainContent">
         <h1>Congratulations! You won $$$!</h1>
         <p>Click the button below to claim your prize.</p>
         <button id="claimButton">Claim Prize</button>
     </div>
 
-    <!-- Meme Fullscreen Container -->
+    <!-- Meme Container -->
     <div class="meme-container" id="memeContainer">
-        <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" alt="Meme Image">
-        <button class="close-button" id="closeMemeButton">Help</button>
+        <img src="https://d3p8e1mvy30w84.cloudfront.net/assets/images/blog/phishing-memes/opera-phishing-meme-image.png" 
+             alt="Phishing Meme">
+        <button class="close-button" id="closeMemeButton">Close</button>
+        <audio id="memeAudio" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop autoplay></audio>
     </div>
 
-    <!-- Action Afterwards Image Container -->
-    <div class="action-container" id="actionContainer">
-        <img src="Phishing%20Campaign/Action_Afterwards.jpg" alt="Action Afterwards Image">
-        <button class="close-button" id="closeActionButton">Close</button>
+    <!-- Image Container -->
+    <div class="image-container" id="imageContainer">
+        <img src="Phishing%20Campaign/Action_Afterwards.jpg" alt="Action Afterwards">
+        <button class="close-button" id="closeImageButton">Close</button>
     </div>
-
-    <!-- Background Music -->
-    <audio id="backgroundMusic" src="Phishing%20Campaign/Nickelodeon%20Applause_Clapping%20Sound%20Effects.mp4" loop></audio>
 
     <script>
-        // Get DOM elements
+        // Get elements
         const claimButton = document.getElementById('claimButton');
         const memeContainer = document.getElementById('memeContainer');
         const closeMemeButton = document.getElementById('closeMemeButton');
-        const actionContainer = document.getElementById('actionContainer');
-        const closeActionButton = document.getElementById('closeActionButton');
-        const backgroundMusic = document.getElementById('backgroundMusic');
+        const imageContainer = document.getElementById('imageContainer');
+        const closeImageButton = document.getElementById('closeImageButton');
+        const memeAudio = document.getElementById('memeAudio');
 
-        // Step 1: Show Meme on Claim Button Click
+        // Show meme container when claim button is clicked
         claimButton.addEventListener('click', function () {
-            // Hide the main content
             document.getElementById('mainContent').style.display = 'none';
-
-            // Show the meme container and play background music
             memeContainer.style.display = 'flex';
-            backgroundMusic.play();
+            memeAudio.play();
+
+            // Send AJAX signal
+            sendAjaxSignal('Claim button clicked');
         });
 
-        // Step 2: Show Action Afterwards Image on Meme Close
+        // Show the final image when the meme is closed
         closeMemeButton.addEventListener('click', function () {
-            // Stop the music
-            backgroundMusic.pause();
-
-            // Hide meme container, show action container
             memeContainer.style.display = 'none';
-            actionContainer.style.display = 'flex';
+            memeAudio.pause();
+            imageContainer.style.display = 'flex';
+
+            // Send AJAX signal
+            sendAjaxSignal('Meme closed');
         });
 
-        // Step 3: Close Everything on Final Button Click
-        closeActionButton.addEventListener('click', function () {
-            // Close the current session
-            fetch('log.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ action: 'session_closed' }),
-            }).then(() => {
-                // Attempt to close the browser window
+        // Attempt to close the browser when the final image is closed
+        closeImageButton.addEventListener('click', function () {
+            sendAjaxSignal('Session ended');
+            
+            // Try to close the window
+            if (window.close) {
                 window.close();
-            });
+            } else {
+                alert('Session ended. Please close this tab manually.');
+            }
         });
+
+        // Function to send AJAX signal
+        function sendAjaxSignal(message) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'log.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(`message=${encodeURIComponent(message)}`);
+        }
     </script>
 </body>
 </html>
